@@ -1,0 +1,29 @@
+{
+  "name": "collection-generator-cli",
+  "version": "1.0.0",
+  "description": "Collection Generator CLI",
+  "bin": {
+    "nft": "index.js"
+  },
+  "main": "index.js",
+  "pkg": {
+    "assets": [
+      "layers/**/*",
+      "node_modules/**/*",
+      "src/**/*"
+    ]
+  },
+  "scripts": {
+    "build": "node index.js",
+    "generate": "node index.js"
+  },
+  "dependencies": {
+    "aeweb": "^0.6.0",
+    "archethic": "1.14.0",
+    "canvas": "^2.8.0",
+    "chalk": "^4.1.1",
+    "figlet": "^1.5.2",
+    "sha1": "^1.1.1",
+    "yargs": "^17.6.2"
+  }
+}
