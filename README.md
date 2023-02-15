@@ -1,4 +1,4 @@
-# Collection Generaot CLI 🔥
+# Collection Generator CLI 🔥
 
 Welcome to Collection Generator CLI, this repository lets you generate, upload and mint NFT collection on Archethic Public Blockchain.
 

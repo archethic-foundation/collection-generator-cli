@@ -1,5 +1,4 @@
-const basePath = process.cwd();
-const { MODE } = require(`${basePath}/constants/blend_mode.js`);
+import { MODE } from '../constants/blend_mode.js';
 
 const namePrefix = "Your Collection";
 const description = "Remember to replace this description";
@@ -66,7 +65,7 @@ const rarityDelimiter = "#";
 
 const uniqueDnaTorrance = 10000;
 
-module.exports = {
+export {
   format,
   baseUri,
   description,

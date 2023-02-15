@@ -1,0 +1,38 @@
+{
+  "name": "Your Collection #4",
+  "description": "Remember to replace this description",
+  "image": "http://localhost:4000/api/web_hosting/00003e8816492c722a6187e10502c12cbb311bdc41a914c43b366681354418a21ff2/4.png",
+  "dna": "3de84bb3b620a7ba0e8397a27e8e8d4a7214e0c4",
+  "edition": 4,
+  "date": 1676462316375,
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Black"
+    },
+    {
+      "trait_type": "Eyeball",
+      "value": "White"
+    },
+    {
+      "trait_type": "Eye color",
+      "value": "Red"
+    },
+    {
+      "trait_type": "Iris",
+      "value": "Small"
+    },
+    {
+      "trait_type": "Shine",
+      "value": "Shapes"
+    },
+    {
+      "trait_type": "Bottom lid",
+      "value": "Middle"
+    },
+    {
+      "trait_type": "Top lid",
+      "value": "Middle"
+    }
+  ]
+}
