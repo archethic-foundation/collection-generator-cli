@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import figlet from 'figlet';
 
-const command = 'about';
+const command = 'welcome';
 const describe = 'Welcome to Archethic Collection Generator';
 const handler = function () {
     console.log(chalk.hex('#CC00FF')('\n', 'Hello and Welcome to Collection Generator CLI !', '\n')),

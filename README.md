@@ -23,13 +23,13 @@ npm link
 To check if project is installed successfully, run the following command -
 
 ```sh
-nft about
+nft welcome
 ```
 
 or
 
 ```sh
-node index.js about
+node index.js welcome
 ```
 
 ## Usage ℹ️
