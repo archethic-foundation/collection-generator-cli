@@ -1,30 +1,19 @@
-const Archethic = require('archethic').default
-const {
-  Crypto,
-  Utils
-} = require('archethic')
-const chalk = require('chalk')
-const yesno = require('yesno')
-const {
-  exit
-} = require('process')
-const cli = require('./cli.js')
-const AEWeb = require('./api.js')
-const path = require('path')
+import fs from 'fs';
+import path from 'path';
+import Archethic, { Crypto, Utils } from 'archethic'
+import AEWeb from 'aeweb';
+import * as cli from './cli.js'
+import { exit } from 'process';
+import chalk from 'chalk';
+import yesno from 'yesno';
+
+const { deriveAddress } = Crypto
+const { originPrivateKey, fromBigInt, uint8ArrayToHex } = Utils
 const basePath = process.cwd();
-const fs = require("fs");
-const {
-  deriveAddress
-} = Crypto
-const {
-  originPrivateKey,
-  fromBigInt,
-  uint8ArrayToHex
-} = Utils
 
-const command = 'upload'
+const command = 'upload';
 
-const describe = 'Upload generated nfts and create reference address'
+const describe = 'Upload generated nfts and create reference address';
 
 const builder = {
   seed: {
@@ -45,9 +34,9 @@ const builder = {
     type: 'string',
     alias: 'p',
   },
-}
+};
 
-const handler = async function (argv) {
+const handler = async function(argv) {
   try {
     const folderPath = cli.normalizeFolderPath(argv.path)
     const baseSeed = argv.seed
@@ -205,9 +194,9 @@ async function sendTransactions(transactions, index, endpoint) {
   })
 }
 
-module.exports = {
+export default {
   command,
   describe,
   builder,
   handler
-}
+};

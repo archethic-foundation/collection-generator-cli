@@ -1,7 +1,7 @@
-const fs = require("fs");
-const chalk = require('chalk')
-const Archethic = require("archethic").default;
-const Utils = require("archethic").Utils;
+import fs from 'fs';
+import chalk from 'chalk';
+import Archethic from 'archethic';
+import { Utils } from 'archethic';
 
 const command = 'mint';
 
@@ -61,7 +61,7 @@ const handler = async function (argv) {
     });
 };
 
-module.exports = {
+export default {
   command,
   describe,
   builder,

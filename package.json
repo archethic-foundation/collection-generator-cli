@@ -5,6 +5,7 @@
   "bin": {
     "nft": "index.js"
   },
+  "type": "module",
   "main": "index.js",
   "pkg": {
     "assets": [
