@@ -8,10 +8,10 @@
     {
       "name": "Your Collection #1",
       "description": "Remember to replace this description",
-      "image": "http://localhost:4000/api/web_hosting/00003e8816492c722a6187e10502c12cbb311bdc41a914c43b366681354418a21ff2/1.png",
-      "dna": "d3b85aab84a8810e2d0caf38dd1cdfc5e3ea11d8",
+      "image": "/1.png",
+      "dna": "a85bae4a3be104d33b46d3e4ce012b3157ae3628",
       "edition": 1,
-      "date": 1676462316077,
+      "date": 1676469301612,
       "attributes": [
         {
           "trait_type": "Background",
@@ -35,59 +35,21 @@
         },
         {
           "trait_type": "Bottom lid",
-          "value": "Low"
+          "value": "High"
         },
         {
           "trait_type": "Top lid",
-          "value": "High"
+          "value": "Middle"
         }
       ]
     },
     {
       "name": "Your Collection #2",
       "description": "Remember to replace this description",
-      "image": "http://localhost:4000/api/web_hosting/00003e8816492c722a6187e10502c12cbb311bdc41a914c43b366681354418a21ff2/2.png",
-      "dna": "966022ee16e02da4083c63af5a858bbffb0b9a59",
+      "image": "/2.png",
+      "dna": "a07a9dad7fa467f9841644fe96e551bec34fca68",
       "edition": 2,
-      "date": 1676462316171,
-      "attributes": [
-        {
-          "trait_type": "Background",
-          "value": "Black"
-        },
-        {
-          "trait_type": "Eyeball",
-          "value": "White"
-        },
-        {
-          "trait_type": "Eye color",
-          "value": "Red"
-        },
-        {
-          "trait_type": "Iris",
-          "value": "Small"
-        },
-        {
-          "trait_type": "Shine",
-          "value": "Shapes"
-        },
-        {
-          "trait_type": "Bottom lid",
-          "value": "Low"
-        },
-        {
-          "trait_type": "Top lid",
-          "value": "High"
-        }
-      ]
-    },
-    {
-      "name": "Your Collection #3",
-      "description": "Remember to replace this description",
-      "image": "http://localhost:4000/api/web_hosting/00003e8816492c722a6187e10502c12cbb311bdc41a914c43b366681354418a21ff2/3.png",
-      "dna": "0de3c8add53f3a8fd2c6a653dad9f3a646255121",
-      "edition": 3,
-      "date": 1676462316276,
+      "date": 1676469301715,
       "attributes": [
         {
           "trait_type": "Background",
@@ -115,17 +77,17 @@
         },
         {
           "trait_type": "Top lid",
-          "value": "High"
+          "value": "Middle"
         }
       ]
     },
     {
-      "name": "Your Collection #4",
+      "name": "Your Collection #3",
       "description": "Remember to replace this description",
-      "image": "http://localhost:4000/api/web_hosting/00003e8816492c722a6187e10502c12cbb311bdc41a914c43b366681354418a21ff2/4.png",
-      "dna": "3de84bb3b620a7ba0e8397a27e8e8d4a7214e0c4",
-      "edition": 4,
-      "date": 1676462316375,
+      "image": "/3.png",
+      "dna": "59ed9aa1f8dba18e866485aeda070367f75a8c6f",
+      "edition": 3,
+      "date": 1676469301819,
       "attributes": [
         {
           "trait_type": "Background",
@@ -133,11 +95,11 @@
         },
         {
           "trait_type": "Eyeball",
-          "value": "White"
+          "value": "Red"
         },
         {
           "trait_type": "Eye color",
-          "value": "Red"
+          "value": "Yellow"
         },
         {
           "trait_type": "Iris",
@@ -149,7 +111,7 @@
         },
         {
           "trait_type": "Bottom lid",
-          "value": "Middle"
+          "value": "Low"
         },
         {
           "trait_type": "Top lid",
@@ -158,12 +120,12 @@
       ]
     },
     {
-      "name": "Your Collection #5",
+      "name": "Your Collection #4",
       "description": "Remember to replace this description",
-      "image": "http://localhost:4000/api/web_hosting/00003e8816492c722a6187e10502c12cbb311bdc41a914c43b366681354418a21ff2/5.png",
-      "dna": "594219bfa83c650c4811a0db3ad0c2ec03f5bdf2",
-      "edition": 5,
-      "date": 1676462316476,
+      "image": "/4.png",
+      "dna": "69ae56a4608893e41edcf2484be75dbb86b75766",
+      "edition": 4,
+      "date": 1676469301919,
       "attributes": [
         {
           "trait_type": "Background",
@@ -187,7 +149,45 @@
         },
         {
           "trait_type": "Bottom lid",
-          "value": "Low"
+          "value": "Middle"
+        },
+        {
+          "trait_type": "Top lid",
+          "value": "High"
+        }
+      ]
+    },
+    {
+      "name": "Your Collection #5",
+      "description": "Remember to replace this description",
+      "image": "/5.png",
+      "dna": "ecd640d97620e4f94f4c0c577bcfe9bf649c98fe",
+      "edition": 5,
+      "date": 1676469302020,
+      "attributes": [
+        {
+          "trait_type": "Background",
+          "value": "Black"
+        },
+        {
+          "trait_type": "Eyeball",
+          "value": "Red"
+        },
+        {
+          "trait_type": "Eye color",
+          "value": "Yellow"
+        },
+        {
+          "trait_type": "Iris",
+          "value": "Small"
+        },
+        {
+          "trait_type": "Shine",
+          "value": "Shapes"
+        },
+        {
+          "trait_type": "Bottom lid",
+          "value": "High"
         },
         {
           "trait_type": "Top lid",
