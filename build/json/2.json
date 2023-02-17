@@ -1,10 +1,10 @@
 {
   "name": "Your Collection #2",
   "description": "Remember to replace this description",
-  "image": "/2.png",
-  "dna": "a07a9dad7fa467f9841644fe96e551bec34fca68",
+  "image": "http://localhost:4000/api/web_hosting/0000e9f9cf92a1ea988afc56bb2ac0b53a3aa260abe2bfbb6d37525d33a74b91b89e/2.png",
+  "dna": "0de3c8add53f3a8fd2c6a653dad9f3a646255121",
   "edition": 2,
-  "date": 1676469301715,
+  "date": 1676648579177,
   "attributes": [
     {
       "trait_type": "Background",
@@ -32,7 +32,7 @@
     },
     {
       "trait_type": "Top lid",
-      "value": "Middle"
+      "value": "High"
     }
   ]
 }

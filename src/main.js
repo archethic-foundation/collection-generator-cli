@@ -20,7 +20,7 @@ import {
   name,
   symbol,
   aeip,
-} from './config.js';
+} from '../config/config.js';
 
 const basePath = process.cwd();
 const buildDir = `${basePath}/build`;

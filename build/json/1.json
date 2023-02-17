@@ -1,10 +1,10 @@
 {
   "name": "Your Collection #1",
   "description": "Remember to replace this description",
-  "image": "/1.png",
-  "dna": "a85bae4a3be104d33b46d3e4ce012b3157ae3628",
+  "image": "http://localhost:4000/api/web_hosting/0000e9f9cf92a1ea988afc56bb2ac0b53a3aa260abe2bfbb6d37525d33a74b91b89e/1.png",
+  "dna": "a07a9dad7fa467f9841644fe96e551bec34fca68",
   "edition": 1,
-  "date": 1676469301612,
+  "date": 1676648579071,
   "attributes": [
     {
       "trait_type": "Background",
@@ -20,7 +20,7 @@
     },
     {
       "trait_type": "Iris",
-      "value": "Medium"
+      "value": "Small"
     },
     {
       "trait_type": "Shine",
@@ -28,7 +28,7 @@
     },
     {
       "trait_type": "Bottom lid",
-      "value": "High"
+      "value": "Middle"
     },
     {
       "trait_type": "Top lid",
