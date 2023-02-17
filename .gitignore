@@ -1,5 +1,7 @@
 # Dependency directories
 node_modules/
-build/
+
+# Sample output
+/build
 
 **/.DS_Store
