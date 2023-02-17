@@ -3,9 +3,10 @@
 import { startCreating, buildSetup } from './src/main.js';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
-import mint from './archethic/mint.js';
-import upload from './archethic/upload.js';
-import about from './about.js';
+import mint from './src/commands/mint.js';
+import upload from './src/commands/upload.js';
+import about from './src/commands/about.js';
+
 
 const y = yargs(hideBin(process.argv));
 
@@ -16,5 +17,6 @@ y.command('generate', 'Generate NFT', () => {
   buildSetup();
   startCreating();
 }).help();
+
 
 y.parse();

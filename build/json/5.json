@@ -1,10 +1,10 @@
 {
   "name": "Your Collection #5",
   "description": "Remember to replace this description",
-  "image": "/5.png",
-  "dna": "ecd640d97620e4f94f4c0c577bcfe9bf649c98fe",
+  "image": "http://localhost:4000/api/web_hosting/0000e9f9cf92a1ea988afc56bb2ac0b53a3aa260abe2bfbb6d37525d33a74b91b89e/5.png",
+  "dna": "a21ae2bb43ab2b5f2448ac5d96404e72e9198781",
   "edition": 5,
-  "date": 1676469302020,
+  "date": 1676648579458,
   "attributes": [
     {
       "trait_type": "Background",
@@ -12,7 +12,7 @@
     },
     {
       "trait_type": "Eyeball",
-      "value": "Red"
+      "value": "White"
     },
     {
       "trait_type": "Eye color",
@@ -20,7 +20,7 @@
     },
     {
       "trait_type": "Iris",
-      "value": "Small"
+      "value": "Large"
     },
     {
       "trait_type": "Shine",
@@ -28,11 +28,11 @@
     },
     {
       "trait_type": "Bottom lid",
-      "value": "High"
+      "value": "Low"
     },
     {
       "trait_type": "Top lid",
-      "value": "Middle"
+      "value": "High"
     }
   ]
 }

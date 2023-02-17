@@ -1,5 +1,5 @@
 {
-  "name": "collection-generator-cli",
+  "name": "ae-nft-cg",
   "version": "1.0.0",
   "description": "Collection Generator CLI",
   "bin": {
