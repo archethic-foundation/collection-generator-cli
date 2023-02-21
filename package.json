@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Collection Generator CLI",
   "bin": {
-    "nft": "index.js"
+    "aenft": "index.js"
   },
   "type": "module",
   "main": "index.js",
@@ -14,10 +14,7 @@
       "src/**/*"
     ]
   },
-  "scripts": {
-    "build": "node index.js",
-    "generate": "node index.js"
-  },
+  
   "dependencies": {
     "aeweb": "^0.6.0",
     "archethic": "1.14.0",

@@ -3,6 +3,8 @@ import chalk from 'chalk';
 import Archethic from 'archethic';
 import { Utils } from 'archethic';
 
+const basePath = process.cwd();
+
 const command = 'mint';
 
 const describe = 'Mint a collection on Archethic Network';
@@ -19,13 +21,7 @@ const builder = {
     demandOption: true,
     type: 'string',
     alias: 'e',
-  },
-  path: {
-    describe: 'Path to the folder or the file to deploy',
-    demandOption: true,
-    type: 'string',
-    alias: 'p',
-  },
+  }
 };
 
 const handler = async function (argv) {
@@ -34,7 +30,7 @@ const handler = async function (argv) {
 
   const archethic = new Archethic(endpoint);
 
-  let content = fs.readFileSync(argv.path).toString("utf-8");
+  let content = fs.readFileSync(`${basePath}/build/json/_metadata.json`).toString("utf-8");
 
   archethic.connect().then(() => {
     const tx = archethic.transaction

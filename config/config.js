@@ -3,10 +3,9 @@ const description = "Remember to replace this description";
 const baseUri = "";
 
 const supply = 500000000;
-const type = "non-fungible"
 const name = "AE Collection"
 const symbol = "AE05"
-const aeip = 2
+const aeip = [2]
 
 const layerConfigurations = [
   {
@@ -61,14 +60,14 @@ const extraMetadata = {};
 
 const rarityDelimiter = "#";
 
-const uniqueDnaTorrance = 10000;
+const uniqueDnaTolerance = 10000;
 
 export {
   format,
   baseUri,
   description,
   background,
-  uniqueDnaTorrance,
+  uniqueDnaTolerance,
   layerConfigurations,
   rarityDelimiter,
   shuffleLayerConfigurations,
@@ -78,7 +77,6 @@ export {
   text,
   namePrefix,
   supply,
-  type,
   name,
   symbol,
   aeip

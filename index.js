@@ -1,21 +1,21 @@
 #!/usr/bin/env node
 
-import { startCreating, buildSetup } from './src/main.js';
+import { createRandomizedImages, setupFolders } from './src/main.js';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import mint from './src/commands/mint.js';
 import upload from './src/commands/upload.js';
-import about from './src/commands/about.js';
+import welcome from './src/commands/welcome.js';
 
 
 const y = yargs(hideBin(process.argv));
 
-y.command(about).help();
+y.command(welcome).help();
 y.command(mint).help();
 y.command(upload).help();
 y.command('generate', 'Generate NFT', () => {
-  buildSetup();
-  startCreating();
+  setupFolders();
+  createRandomizedImages();
 }).help();
 
 
