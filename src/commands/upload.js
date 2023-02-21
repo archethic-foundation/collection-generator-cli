@@ -27,18 +27,14 @@ const builder = {
     demandOption: true,
     type: 'string',
     alias: 'e',
-  },
-  path: {
-    describe: 'Path to the folder or the file to deploy',
-    demandOption: true,
-    type: 'string',
-    alias: 'p',
-  },
+  }
 };
+
+
 
 const handler = async function(argv) {
   try {
-    const folderPath = cli.normalizeFolderPath(argv.path)
+    const folderPath = cli.normalizeFolderPath(`${basePath}/build/images`)
     const baseSeed = argv.seed
     const {
       refSeed,

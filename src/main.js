@@ -7,7 +7,7 @@ import {
   baseUri,
   description,
   background,
-  uniqueDnaTorrance,
+  uniqueDnaTolerance,
   layerConfigurations,
   rarityDelimiter,
   shuffleLayerConfigurations,
@@ -16,7 +16,6 @@ import {
   text,
   namePrefix,
   supply,
-  type,
   name,
   symbol,
   aeip,
@@ -35,7 +34,7 @@ let attributesList = [];
 const dnaList = new Set();
 const DNA_DELIMITER = '-';
 
-const buildSetup = () => {
+const setupFolders = () => {
   if (fs.existsSync(buildDir)) {
     fs.rmdirSync(buildDir, { recursive: true });
   }
@@ -285,7 +284,7 @@ function shuffle(array) {
   return array;
 }
 
-const startCreating = async () => {
+const createRandomizedImages = async () => {
   let layerConfigIndex = 0;
   let editionCount = 1;
   let failedCount = 0;
@@ -353,17 +352,17 @@ const startCreating = async () => {
       } else {
         console.log("DNA exists!");
         failedCount++;
-        if (failedCount >= uniqueDnaTorrance) {
+        if (failedCount >= uniqueDnaTolerance) {
           console.log(
             `You need more layers or elements to grow your edition to ${layerConfigurations[layerConfigIndex].growEditionSizeTo} artworks!`
           );
-          process.exit();
+          process.exit(1);
         }
       }
     }
     layerConfigIndex++;
   }
-  writeMetaData(JSON.stringify({supply : supply, type: type, name : name, symbol : symbol, aeip : aeip, collection : metadataList}, null, 2));
+  writeMetaData(JSON.stringify({supply : supply, name : name, type: "non-fungible", symbol : symbol, aeip : aeip, collection : metadataList}, null, 2));
 };
 
-export { startCreating, buildSetup, getElements };
+export { createRandomizedImages, setupFolders };
