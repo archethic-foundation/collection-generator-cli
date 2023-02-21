@@ -1,7 +1,7 @@
 import fs from 'fs';
 import chalk from 'chalk';
 import Archethic from 'archethic';
-import { Utils } from 'archethic';
+import { Utils, Crypto } from 'archethic';
 
 const basePath = process.cwd();
 
@@ -32,12 +32,17 @@ const handler = async function (argv) {
 
   let content = fs.readFileSync(`${basePath}/build/json/_metadata.json`).toString("utf-8");
 
-  archethic.connect().then(() => {
+  archethic.connect().then(async () => {
+
+    const address = Crypto.deriveAddress(argv.seed, 0);
+    
+    const txIndex = await archethic.transaction.getTransactionIndex(address);
+
     const tx = archethic.transaction
       .new()
       .setType("token")
       .setContent(content)
-      .build(seed, 0)
+      .build(seed, txIndex)
       .originSign(Utils.originPrivateKey);
 
     tx
