@@ -21,6 +21,13 @@ import {
   aeip,
 } from '../config/config.js';
 
+
+const command = 'generate';
+
+const describe = 'Generate random NFTs';
+
+const handler = async function() {
+
 const basePath = process.cwd();
 const buildDir = `${basePath}/build`;
 const layersDir = `${basePath}/layers`;
@@ -365,4 +372,14 @@ const createRandomizedImages = async () => {
   writeMetaData(JSON.stringify({supply : supply, name : name, type: "non-fungible", symbol : symbol, aeip : aeip, collection : metadataList}, null, 2));
 };
 
-export { createRandomizedImages, setupFolders };
+setupFolders();
+createRandomizedImages();
+
+}
+
+
+export default {
+  command,
+  describe,
+  handler
+};
