@@ -23,13 +23,13 @@ npm link
 To check if project is installed successfully, run the following command -
 
 ```sh
-nft welcome
+aenft about
 ```
 
 or
 
 ```sh
-node index.js welcome
+node index.js about
 ```
 
 ## Usage ℹ️
@@ -101,7 +101,7 @@ If you want to have logs to debug and see what is happening when you generate im
 When you are ready, run the following command and your outputted art will be in the `build/images` directory and the json in the `build/json` directory:
 
 ```sh
-nft generate
+aenft generate
 ```
 
 or
@@ -180,13 +180,13 @@ To upload images -
 - `path` is the path of the folder you want to deploy
 
 ```bash
-nft upload --seed myseedphrase --endpoint https://testnet.archethic.net --path ./build/images
+aenft upload --seed myseedphrase --endpoint https://testnet.archethic.net 
 ```
 
 or
 
 ```sh
-node index.js upload --seed myseedphrase --endpoint https://testnet.archethic.net --path ./build/images
+node index.js upload --seed myseedphrase --endpoint https://testnet.archethic.net 
 ```
 
 ### Mint a collection on Archethic Public Blockchain
@@ -198,13 +198,13 @@ To mint a NFT collection on Archethic Public Blockchain -
 - `path` is the path of the json file you want to deploy
 
 ```bash
-nft mint --seed myseedphrase --endpoint https://testnet.archethic.net --path ./build/json/_metadata.json
+aenft mint --seed myseedphrase --endpoint https://testnet.archethic.net 
 ```
 
 or
 
 ```sh
-node index.js mint --seed myseedphrase --endpoint https://testnet.archethic.net --path ./build/json/_metadata.json
+node index.js mint --seed myseedphrase --endpoint https://testnet.archethic.net 
 ```
 
 Hope you will create some awesome artworks with this code.
