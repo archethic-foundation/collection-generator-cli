@@ -5,7 +5,6 @@ const baseUri = "";
 const supply = 500000000;
 const name = "AE Collection"
 const symbol = "AE05"
-const aeip = [2]
 
 const layerConfigurations = [
   {
@@ -78,6 +77,5 @@ export {
   namePrefix,
   supply,
   name,
-  symbol,
-  aeip
+  symbol
 };

@@ -2,6 +2,7 @@ import fs from 'fs';
 import chalk from 'chalk';
 import Archethic from 'archethic';
 import { Utils, Crypto } from 'archethic';
+import yesno from 'yesno';
 
 const basePath = process.cwd();
 
@@ -44,6 +45,17 @@ const handler = async function (argv) {
       .setContent(content)
       .build(seed, txIndex)
       .originSign(Utils.originPrivateKey);
+    
+    const {
+      fee,
+      rates
+    } = await archethic.transaction.getTransactionFee(tx)
+
+    const fees = Utils.fromBigInt(fee)
+
+    const ok = await validFees(fees, rates)
+
+    if (ok) {
 
     tx
       .on("error", (context, reason) => {
@@ -55,12 +67,31 @@ const handler = async function (argv) {
         process.exit(0);
       })
       .send(60);
+    }
   })
     .catch(err => {
       console.log(chalk.red(err));
       process.exit(1);
     });
 };
+
+async function validFees(fees, rates) {
+  console.log(chalk.yellowBright(
+    'Total Fee Requirement would be : ' +
+    fees +
+    ' UCO ( $ ' +
+    (rates.usd * fees).toFixed(2) +
+    ' | € ' +
+    (rates.eur * fees).toFixed(2) +
+    ')' 
+  ))
+
+  return await yesno({
+    question: chalk.yellowBright(
+      'Do you want to continue. (yes/no)'
+    ),
+  })
+}
 
 export default {
   command,
