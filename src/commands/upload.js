@@ -32,7 +32,7 @@ const builder = {
 
 
 
-const handler = async function(argv) {
+const handler = async function (argv) {
   try {
     const folderPath = cli.normalizeFolderPath(`${basePath}/build/images`)
     const baseSeed = argv.seed
@@ -111,7 +111,7 @@ const handler = async function(argv) {
       for (let edition in data.collection) {
 
         let item = data.collection[edition];
-        item.image = `${endpoint}/api/web_hosting/${uint8ArrayToHex(refAddress)}/${item.edition}.png`;
+        item.content.aeweb = `${endpoint}/api/web_hosting/${uint8ArrayToHex(refAddress)}/${item.edition}.png`;
 
         fs.writeFileSync(
           `${basePath}/build/json/${item.edition}.json`,
