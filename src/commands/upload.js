@@ -111,7 +111,7 @@ const handler = async function (argv) {
       for (let edition in data.collection) {
 
         let item = data.collection[edition];
-        item.content.aeweb = `${endpoint}/api/web_hosting/${uint8ArrayToHex(refAddress)}/${item.edition}.png`;
+        item.content.aeweb = `${uint8ArrayToHex(refAddress)}/${item.edition}.png`;
 
         fs.writeFileSync(
           `${basePath}/build/json/${item.edition}.json`,
