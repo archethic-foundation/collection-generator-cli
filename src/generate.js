@@ -131,7 +131,7 @@ const handler = async function () {
       name: name,
       type: "non-fungible",
       symbol: symbol,
-      aeip: [2],
+      aeip: [2, 9],
       collection: metadataList
     }, null, 2));
   };
@@ -215,6 +215,7 @@ function addMetadata(_dna, _edition) {
     content: {
       aeweb: `${baseUri}/${_edition}.png`,
     },
+    type_mime: `ìmage/png`,
     dna: sha1(_dna),
     edition: _edition,
     date: dateTime,
