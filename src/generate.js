@@ -17,7 +17,9 @@ import {
   namePrefix,
   supply,
   name,
-  symbol
+  symbol,
+  addEditionToMetadata,
+  addDnaToMetadata
 } from '../config/config.js';
 
 const basePath = process.cwd();
@@ -37,7 +39,7 @@ const command = 'generate';
 
 const describe = 'Generate random NFTs';
 
-const handler = async function () {
+const handler = async function() {
 
   const setupFolders = () => {
     if (fs.existsSync(buildDir)) {
@@ -208,7 +210,6 @@ function drawBackground() {
 };
 
 function addMetadata(_dna, _edition) {
-  let dateTime = Date.now();
   let tempMetadata = {
     name: `${namePrefix} #${_edition}`,
     description: description,
@@ -216,12 +217,14 @@ function addMetadata(_dna, _edition) {
       aeweb: `${baseUri}/${_edition}.png`,
     },
     type_mime: `image/png`,
-    dna: sha1(_dna),
     edition: _edition,
-    date: dateTime,
     ...extraMetadata,
     attributes: attributesList,
   };
+
+  if (addDnaToMetadata) {
+    tempMetadata.dna = sha1(_dna)
+  }
 
   metadataList.push(tempMetadata);
   attributesList = [];
@@ -296,6 +299,11 @@ function saveMetaDataSingleFile(_editionCount) {
       `Writing metadata for ${_editionCount}: ${JSON.stringify(metadata)}`
     )
     : null;
+
+  if (addEditionToMetadata) {
+    delete meta.edition
+  }
+
   fs.writeFileSync(
     `${buildDir}/json/${_editionCount}.json`,
     JSON.stringify(metadata, null, 2)
