@@ -61,6 +61,10 @@ const rarityDelimiter = "#";
 
 const uniqueDnaTolerance = 10000;
 
+const addDnaToMetadata = false;
+
+const addEditionToMetadata = false;
+
 export {
   format,
   baseUri,
@@ -77,5 +81,7 @@ export {
   namePrefix,
   supply,
   name,
-  symbol
+  symbol,
+  addDnaToMetadata,
+  addEditionToMetadata
 };
