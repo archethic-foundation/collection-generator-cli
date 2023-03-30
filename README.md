@@ -4,32 +4,14 @@ Welcome to Collection Generator CLI, this repository lets you generate, upload a
 
 ## Installation 🛠️
 
-If you are cloning the project then run this first, otherwise you can download the source code on the release page and skip this step.
-
 ```sh
-git clone https://github.com/archethic-foundation/collection-generator-cli.git
-```
-
-Alternatively you can run following commands if you have node installed.
-
-```sh
-npm install
-```
-
-```sh
-npm link
+npm install -g aenft-collection 
 ```
 
 To check if project is installed successfully, run the following command -
 
 ```sh
-aenft about
-```
-
-or
-
-```sh
-node index.js about
+aenft-collection about
 ```
 
 ## Usage ℹ️
@@ -101,13 +83,7 @@ If you want to have logs to debug and see what is happening when you generate im
 When you are ready, run the following command and your outputted art will be in the `build/images` directory and the json in the `build/json` directory:
 
 ```sh
-aenft generate
-```
-
-or
-
-```sh
-node index.js generate
+aenft-collection generate
 ```
 
 The program will output all the images in the `build/images` directory along with the metadata files in the `build/json` directory. Each collection will have a `_metadata.json` file that consists of all the metadata in the collection inside the `build/json` directory. The `build/json` folder also will contain all the single json files that represent each image file. The single json file of a image will look something like this:
@@ -180,13 +156,7 @@ To upload images -
 - `path` is the path of the folder you want to deploy
 
 ```bash
-aenft upload --seed myseedphrase --endpoint https://testnet.archethic.net 
-```
-
-or
-
-```sh
-node index.js upload --seed myseedphrase --endpoint https://testnet.archethic.net 
+aenft-collection upload --seed myseedphrase --endpoint https://testnet.archethic.net 
 ```
 
 ### Mint a collection on Archethic Public Blockchain
@@ -198,13 +168,7 @@ To mint a NFT collection on Archethic Public Blockchain -
 - `path` is the path of the json file you want to deploy
 
 ```bash
-aenft mint --seed myseedphrase --endpoint https://testnet.archethic.net 
-```
-
-or
-
-```sh
-node index.js mint --seed myseedphrase --endpoint https://testnet.archethic.net 
+aenft-collection mint --seed myseedphrase --endpoint https://testnet.archethic.net 
 ```
 
 Hope you will create some awesome artworks with this code.

@@ -1,9 +1,9 @@
 {
-  "name": "ae-nft-cg",
+  "name": "aenft-collection",
   "version": "1.0.0",
-  "description": "Collection Generator CLI",
+  "description": "Archethic NFT Collection Generator CLI",
   "bin": {
-    "aenft": "index.js"
+    "aenft-collection": "index.js"
   },
   "type": "module",
   "main": "index.js",
