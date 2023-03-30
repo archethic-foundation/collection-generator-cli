@@ -15,10 +15,101 @@ aenft-collection about
 ```
 
 ## Usage ℹ️
+First, create a ``config.js`` file at the root of your project with this structure:
 
-Create your different layers as folders in the 'layers' directory, and add all the layer assets in these directories. You can name the assets anything as long as it has a rarity weight attached in the file name like so: `example element#70.png`. You can optionally change the delimiter `#` to anything you would like to use in the variable `rarityDelimiter` in the `src/config.js` file.
+```js
+const namePrefix = "Your Collection";
+const description = "Remember to replace this description";
+const baseUri = "";
 
-Once you have all your layers, go into `src/config.js` and update the `layerConfigurations` objects `layersOrder` array to be your layer folders name in order of the back layer to the front layer.
+const supply = 500000000;
+const name = "AE Collection"
+const symbol = "AE05"
+
+const layerConfigurations = [
+  {
+    growEditionSizeTo: 5,
+    layersOrder: [
+      { name: "Background" },
+      { name: "Eyeball" },
+      { name: "Eye color" },
+      { name: "Iris" },
+      { name: "Shine" },
+      { name: "Bottom lid" },
+      { name: "Top lid" },
+    ],
+  },
+];
+
+const shuffleLayerConfigurations = false;
+
+const debugLogs = false;
+
+const format = {
+  width: 512,
+  height: 512,
+  smoothing: false,
+};
+
+const text = {
+  only: false,
+  color: "#ffffff",
+  size: 20,
+  xGap: 40,
+  yGap: 40,
+  align: "left",
+  baseline: "top",
+  weight: "regular",
+  family: "Courier",
+  spacer: " => ",
+};
+
+const pixelFormat = {
+  ratio: 2 / 128,
+};
+
+const background = {
+  generate: true,
+  brightness: "80%",
+  static: false,
+  default: "#000000",
+};
+
+const extraMetadata = {};
+
+const rarityDelimiter = "#";
+
+const uniqueDnaTolerance = 10000;
+
+const addDnaToMetadata = false;
+
+const addEditionToMetadata = false;
+
+export {
+  format,
+  baseUri,
+  description,
+  background,
+  uniqueDnaTolerance,
+  layerConfigurations,
+  rarityDelimiter,
+  shuffleLayerConfigurations,
+  debugLogs,
+  extraMetadata,
+  pixelFormat,
+  text,
+  namePrefix,
+  supply,
+  name,
+  symbol,
+  addDnaToMetadata,
+  addEditionToMetadata
+};
+```
+
+Create your different layers as folders in a 'layers' directory (this directory must be in the root), and add all the layer assets in these directories. You can name the assets anything as long as it has a rarity weight attached in the file name like so: `example element#70.png`. You can optionally change the delimiter `#` to anything you would like to use in the variable `rarityDelimiter` in the `config.js` file.
+
+Once you have all your layers, go into your `config.js` and update the `layerConfigurations` objects `layersOrder` array to be your layer folders name in order of the back layer to the front layer.
 
 _Example:_ If you were creating a portrait design, you might have a background, then a head, a mouth, eyes, eyewear, and then headwear, so your `layersOrder` would look something like this:
 

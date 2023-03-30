@@ -20,7 +20,7 @@ import {
   symbol,
   addEditionToMetadata,
   addDnaToMetadata
-} from '../config/config.js';
+} from '../config.js';
 
 const basePath = process.cwd();
 const buildDir = `${basePath}/build`;
