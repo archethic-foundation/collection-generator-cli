@@ -39,7 +39,7 @@ const command = 'generate';
 
 const describe = 'Generate random NFTs';
 
-const handler = async function() {
+const handler = async function () {
 
   const setupFolders = () => {
     if (fs.existsSync(buildDir)) {
@@ -300,8 +300,8 @@ function saveMetaDataSingleFile(_editionCount) {
     )
     : null;
 
-  if (addEditionToMetadata) {
-    delete meta.edition
+  if (!addEditionToMetadata) {
+    delete metadata.edition
   }
 
   fs.writeFileSync(
