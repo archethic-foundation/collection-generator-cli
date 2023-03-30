@@ -215,7 +215,7 @@ function addMetadata(_dna, _edition) {
     content: {
       aeweb: `${baseUri}/${_edition}.png`,
     },
-    type_mime: `ìmage/png`,
+    type_mime: `image/png`,
     dna: sha1(_dna),
     edition: _edition,
     date: dateTime,
