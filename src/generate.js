@@ -2,7 +2,12 @@ import { createCanvas, loadImage } from 'canvas';
 import fs from 'fs';
 import chalk from 'chalk';
 import sha1 from 'sha1';
-import {
+import minimist from 'minimist';
+const args = minimist(process.argv.slice(2));
+const configPath = args.config + 'config.json';
+const config = JSON.parse(fs.readFileSync(configPath));
+
+const {
   format,
   baseUri,
   description,
@@ -20,7 +25,7 @@ import {
   symbol,
   addEditionToMetadata,
   addDnaToMetadata
-} from '../config.js';
+} = config;
 
 const basePath = process.cwd();
 const buildDir = `${basePath}/build`;

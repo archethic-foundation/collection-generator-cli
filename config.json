@@ -1,0 +1,69 @@
+{
+  "namePrefix": "Your Collection",
+  "description": "Remember to replace this description",
+  "baseUri": "",
+  "supply": 500000000,
+  "name": "AE Collection",
+  "symbol": "AE05",
+  "layerConfigurations": [
+    {
+      "growEditionSizeTo": 5,
+      "layersOrder": [
+        {
+          "name": "Background"
+        },
+        {
+          "name": "Eyeball"
+        },
+        {
+          "name": "Eye color"
+        },
+        {
+          "name": "Iris"
+        },
+        {
+          "name": "Shine"
+        },
+        {
+          "name": "Bottom lid"
+        },
+        {
+          "name": "Top lid"
+        }
+      ]
+    }
+  ],
+  "shuffleLayerConfigurations": false,
+  "debugLogs": false,
+  "format": {
+    "width": 512,
+    "height": 512,
+    "smoothing": false
+  },
+  "text": {
+    "only": false,
+    "color": "#ffffff",
+    "size": 20,
+    "xGap": 40,
+    "yGap": 40,
+    "align": "left",
+    "baseline": "top",
+    "weight": "regular",
+    "family": "Courier",
+    "spacer": " => "
+  },
+  "pixelFormat": {
+    "ratio": 0.015625
+  },
+  "background": {
+    "generate": true,
+    "brightness": "80%",
+    "static": false,
+    "default": "#000000"
+  },
+  "extraMetadata": {},
+  "rarityDelimiter": "#",
+  "uniqueDnaTolerance": 10000,
+  "addDnaToMetadata": false,
+  "addEditionToMetadata": false
+}

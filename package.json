@@ -14,13 +14,13 @@
       "src/**/*"
     ]
   },
-  
   "dependencies": {
     "aeweb": "^0.6.0",
     "archethic": "1.14.0",
     "canvas": "^2.8.0",
     "chalk": "^4.1.1",
     "figlet": "^1.5.2",
+    "minimist": "^1.2.8",
     "sha1": "^1.1.1",
     "yargs": "^17.6.2"
   }
