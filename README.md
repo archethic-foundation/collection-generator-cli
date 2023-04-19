@@ -141,7 +141,7 @@ If you want to have logs to debug and see what is happening when you generate im
 When you are ready, run the following command and your outputted art will be in the `build/images` directory and the json in the `build/json` directory:
 
 ```sh
-aenft-collection generate --config ''
+aenft-collection generate --config ./config.json
 ```
 
 - `config` is the path of your `config.json` file.
