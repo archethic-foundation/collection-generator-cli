@@ -4,7 +4,7 @@ import chalk from 'chalk';
 import sha1 from 'sha1';
 import minimist from 'minimist';
 const args = minimist(process.argv.slice(2));
-const configPath = args.config + 'config.json';
+const configPath = args.config;
 const config = JSON.parse(fs.readFileSync(configPath));
 
 const {
