@@ -215,7 +215,7 @@ To upload images -
 
 - `seed` is a string representing the transaction chain entropy to be able to derive and generate the keys
 - `endpoint` is the URL of a welcome node to receive the transaction
-- `build-path` is the path of the NFT collection generation output
+- `build-path` is the path of the NFT collection generation output (optional, default to: `./build`)
   
 ```bash
 aenft-collection upload --seed myseedphrase --endpoint https://testnet.archethic.net
