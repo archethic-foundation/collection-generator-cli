@@ -9,7 +9,6 @@ import yesno from "yesno";
 
 const { deriveAddress } = Crypto;
 const { originPrivateKey, fromBigInt, uint8ArrayToHex } = Utils;
-const basePath = process.cwd();
 
 const command = "upload";
 
@@ -41,7 +40,19 @@ const builder = {
 
 const handler = async function (argv) {
   try {
+    // check if folder exists
+    if (!fs.existsSync(argv["build-path"])) {
+      console.log(
+        chalk.red(
+          `Could not find config file at ${argv["build-path"]}, please check the path and try again.`
+        )
+      );
+      process.exit(1);
+    } else {
+      console.log(chalk.green(`Found config file at ${argv["build-path"]}`));
+    }
     const folderPath = cli.normalizeFolderPath(argv["build-path"]);
+
     const baseSeed = argv.seed;
     const { refSeed, filesSeed } = cli.getSeeds(baseSeed);
 
