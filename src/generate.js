@@ -102,34 +102,45 @@ const handler = async function (argv) {
   };
 
   const createRandomizedImages = async () => {
-    let layerConfigIndex = 0;
-    let editionCount = 1;
-    let failedCount = 0;
-    let abstractedIndexes = [];
+    let globalEditionCount = 1;
+
     for (
-      let i = 1;
-      i <=
-      config.layerConfigurations[config.layerConfigurations.length - 1]
-        .growEditionSizeTo;
-      i++
+      let configIndex = 0;
+      configIndex < config.layerConfigurations.length;
+      configIndex++
     ) {
-      abstractedIndexes.push(i);
-    }
-    if (config.shuffleLayerConfigurations) {
-      abstractedIndexes = shuffle(abstractedIndexes);
-    }
-    config.debugLogs
-      ? console.log("Editions left to create: ", abstractedIndexes)
-      : null;
-    while (layerConfigIndex < config.layerConfigurations.length) {
+      let editionCount = 1;
+      let failedCount = 0;
+      let abstractedIndexes = [];
+
+      for (
+        let i = globalEditionCount;
+        i <
+        globalEditionCount +
+          config.layerConfigurations[configIndex].growEditionSizeTo;
+        i++
+      ) {
+        abstractedIndexes.push(i);
+      }
+
+      if (config.shuffleLayerConfigurations) {
+        abstractedIndexes = shuffle(abstractedIndexes);
+      }
+
+      config.debugLogs
+        ? console.log("Editions left to create: ", abstractedIndexes)
+        : null;
+
       const layers = layersSetup(
-        config.layerConfigurations[layerConfigIndex].layersOrder
+        config.layerConfigurations[configIndex].layersOrder
       );
+
       while (
         editionCount <=
-        config.layerConfigurations[layerConfigIndex].growEditionSizeTo
+        config.layerConfigurations[configIndex].growEditionSizeTo
       ) {
         let newDna = createDna(layers);
+
         if (isDnaUnique(dnaList, newDna)) {
           let results = constructLayerToDna(newDna, layers);
           let loadedElements = [];
@@ -145,17 +156,19 @@ const handler = async function (argv) {
             if (config.background.generate) {
               drawBackground();
             }
+
             renderObjectArray.forEach((renderObject, index) => {
               drawElement(
                 renderObject,
                 index,
-                config.layerConfigurations[layerConfigIndex].layersOrder.length
+                config.layerConfigurations[configIndex].layersOrder.length
               );
             });
 
             config.debugLogs
               ? console.log("Editions left to create: ", abstractedIndexes)
               : null;
+
             saveImage(abstractedIndexes[0]);
             addMetadata(newDna, abstractedIndexes[0]);
             saveMetaDataSingleFile(abstractedIndexes[0]);
@@ -167,22 +180,27 @@ const handler = async function (argv) {
               )
             );
           });
+
           dnaList.add(filterDNAOptions(newDna));
           editionCount++;
           abstractedIndexes.shift();
         } else {
           console.log("DNA exists!");
           failedCount++;
+
           if (failedCount >= config.uniqueDnaTolerance) {
             console.log(
-              `You need more layers or elements to grow your edition to ${config.layerConfigurations[layerConfigIndex].growEditionSizeTo} artworks!`
+              `You need more layers or elements to grow your edition to ${config.layerConfigurations[configIndex].growEditionSizeTo} artworks!`
             );
             process.exit(1);
           }
         }
       }
-      layerConfigIndex++;
+
+      globalEditionCount +=
+        config.layerConfigurations[configIndex].growEditionSizeTo;
     }
+
     writeMetaData(
       JSON.stringify(
         {
