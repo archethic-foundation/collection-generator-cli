@@ -39,20 +39,28 @@ const builder = {
 };
 
 const handler = async function (argv) {
+  const buildPath = argv["build-path"];
   try {
     // check if folder exists
-    if (!fs.existsSync(argv["build-path"])) {
+    if (!fs.existsSync(`${argv["build-path"]}/images`)) {
       console.log(
         chalk.red(
-          `Could not find config file at ${argv["build-path"]}, please check the path and try again.`
+          `Could not find images folder at ${argv["build-path"]}, please check the path and try again.`
         )
       );
       process.exit(1);
-    } else {
-      console.log(chalk.green(`Found config file at ${argv["build-path"]}`));
     }
-    const folderPath = cli.normalizeFolderPath(argv["build-path"]);
+    if (!fs.existsSync(`${argv["build-path"]}/json/_metadata.json`)) {
+        console.log(
+            chalk.red(
+            `Could not find _metadata.json file at ${argv["build-path"]}, please check the path and try again.`
+            )
+        );
+        process.exit(1);
+    }
 
+    const folderPath = cli.normalizeFolderPath(`${buildPath}/images`);
+    const metadataPath = cli.normalizeFolderPath(`${buildPath}/json`);
     const baseSeed = argv.seed;
     const { refSeed, filesSeed } = cli.getSeeds(baseSeed);
 
@@ -124,7 +132,7 @@ const handler = async function (argv) {
     if (ok) {
       console.log(chalk.blue("Sending transactions..."));
 
-      let rawdata = fs.readFileSync(`${basePath}/build/json/_metadata.json`);
+      let rawdata = fs.readFileSync(`${metadataPath}/_metadata.json`);
       let data = JSON.parse(rawdata);
 
       for (let edition in data.collection) {
@@ -132,13 +140,13 @@ const handler = async function (argv) {
         item.content.aeweb = `${uint8ArrayToHex(refAddress)}/${edition}.png`;
 
         fs.writeFileSync(
-          `${basePath}/build/json/${edition}.json`,
+          `${metadataPath}/${edition}.json`,
           JSON.stringify(item, null, 2)
         );
       }
 
       fs.writeFileSync(
-        `${basePath}/build/json/_metadata.json`,
+        `${metadataPath}/_metadata.json`,
         JSON.stringify(data, null, 2)
       );
 
