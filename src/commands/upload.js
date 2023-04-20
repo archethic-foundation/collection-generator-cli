@@ -35,13 +35,13 @@ const builder = {
     demandOption: false,
     type: "string",
     alias: "b",
-    default: `${basePath}/build`,
+    default: `./build`,
   },
 };
 
 const handler = async function (argv) {
   try {
-    const folderPath = cli.normalizeFolderPath(`${basePath}/build/images`);
+    const folderPath = cli.normalizeFolderPath(argv["build-path"]);
     const baseSeed = argv.seed;
     const { refSeed, filesSeed } = cli.getSeeds(baseSeed);
 
