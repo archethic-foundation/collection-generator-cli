@@ -36,7 +36,6 @@ function checkRequiredConfig(config) {
     "namePrefix",
     "description",
     "baseUri",
-    "supply",
     "name",
     "symbol",
     "layerConfigurations",
@@ -204,7 +203,7 @@ const handler = async function (argv) {
     writeMetaData(
       JSON.stringify(
         {
-          supply: config.supply,
+          supply: globalEditionCount - 1,
           name: config.name,
           type: "non-fungible",
           symbol: config.symbol,
