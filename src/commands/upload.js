@@ -1,127 +1,152 @@
-import fs from 'fs';
-import path from 'path';
-import Archethic, { Crypto, Utils } from 'archethic'
-import AEWeb from 'aeweb';
-import * as cli from './cli.js'
-import { exit } from 'process';
-import chalk from 'chalk';
-import yesno from 'yesno';
+import fs from "fs";
+import path from "path";
+import Archethic, { Crypto, Utils } from "archethic";
+import AEWeb from "aeweb/lib/api.js";
+import * as cli from "./cli.js";
+import { exit } from "process";
+import chalk from "chalk";
+import yesno from "yesno";
 
-const { deriveAddress } = Crypto
-const { originPrivateKey, fromBigInt, uint8ArrayToHex } = Utils
-const basePath = process.cwd();
+const { deriveAddress } = Crypto;
+const { originPrivateKey, fromBigInt, uint8ArrayToHex } = Utils;
 
-const command = 'upload';
+const command = "upload";
 
-const describe = 'Upload generated nfts and create reference address';
+const describe = "Upload generated nfts and create reference address";
 
 const builder = {
   seed: {
-    describe: 'Seed is a string representing the transaction chain entropy to be able to derive and generate the keys for the transactions',
+    describe:
+      "Seed is a string representing the transaction chain entropy to be able to derive and generate the keys for the transactions",
     demandOption: true,
-    type: 'string',
-    alias: 's',
+    type: "string",
+    alias: "s",
   },
   endpoint: {
-    describe: 'Endpoint is the URL of a welcome node to receive the transaction',
+    describe:
+      "Endpoint is the URL of a welcome node to receive the transaction",
     demandOption: true,
-    type: 'string',
-    alias: 'e',
-  }
+    type: "string",
+    alias: "e",
+  },
+  "build-path": {
+    describe: "Path to the build folder",
+    demandOption: false,
+    type: "string",
+    alias: "b",
+    default: `./build`,
+  },
 };
 
-
-
 const handler = async function (argv) {
+  const buildPath = argv["build-path"];
   try {
-    const folderPath = cli.normalizeFolderPath(`${basePath}/build/images`)
-    const baseSeed = argv.seed
-    const {
-      refSeed,
-      filesSeed
-    } = cli.getSeeds(baseSeed)
+    // check if folder exists
+    if (!fs.existsSync(`${argv["build-path"]}/images`)) {
+      console.log(
+        chalk.red(
+          `Could not find images folder at ${argv["build-path"]}, please check the path and try again.`
+        )
+      );
+      process.exit(1);
+    }
+    if (!fs.existsSync(`${argv["build-path"]}/json/_metadata.json`)) {
+        console.log(
+            chalk.red(
+            `Could not find _metadata.json file at ${argv["build-path"]}, please check the path and try again.`
+            )
+        );
+        process.exit(1);
+    }
 
-    const baseAddress = deriveAddress(baseSeed, 0)
-    const refAddress = deriveAddress(refSeed, 0)
-    const filesAddress = deriveAddress(filesSeed, 0)
+    const folderPath = cli.normalizeFolderPath(`${buildPath}/images`);
+    const metadataPath = cli.normalizeFolderPath(`${buildPath}/json`);
+    const baseSeed = argv.seed;
+    const { refSeed, filesSeed } = cli.getSeeds(baseSeed);
 
-    const endpoint = new URL(argv.endpoint).origin
+    const baseAddress = deriveAddress(baseSeed, 0);
+    const refAddress = deriveAddress(refSeed, 0);
+    const filesAddress = deriveAddress(filesSeed, 0);
 
-    console.log(chalk.blue(`Connecting to ${endpoint}`))
+    const endpoint = new URL(argv.endpoint).origin;
 
-    const archethic = await new Archethic(endpoint).connect()
+    console.log(chalk.blue(`Connecting to ${endpoint}`));
 
-    const baseIndex = await archethic.transaction.getTransactionIndex(baseAddress)
-    const refIndex = await archethic.transaction.getTransactionIndex(refAddress)
-    let filesIndex = await archethic.transaction.getTransactionIndex(filesAddress)
+    const archethic = await new Archethic(endpoint).connect();
 
-    const aeweb = new AEWeb(archethic)
-    const files = cli.getFiles(folderPath)
+    const baseIndex = await archethic.transaction.getTransactionIndex(
+      baseAddress
+    );
+    const refIndex = await archethic.transaction.getTransactionIndex(
+      refAddress
+    );
+    let filesIndex = await archethic.transaction.getTransactionIndex(
+      filesAddress
+    );
 
-    if (files.length === 0) throw 'folder "' + path.basename(folderPath) + '" is empty'
+    const aeweb = new AEWeb(archethic);
+    const files = cli.getFiles(folderPath);
 
-    files.forEach(({
-      filePath,
-      data
-    }) => aeweb.addFile(filePath, data))
+    if (files.length === 0)
+      throw 'folder "' + path.basename(folderPath) + '" is empty';
 
-    let transactions = aeweb.getFilesTransactions()
+    files.forEach(({ filePath, data }) => aeweb.addFile(filePath, data));
 
-    transactions = transactions.map(tx => {
-      const index = filesIndex
-      filesIndex++
-      return tx.build(filesSeed, index).originSign(originPrivateKey)
-    })
+    let transactions = aeweb.getFilesTransactions();
 
-    const refTx = await aeweb.getRefTransaction(transactions)
+    transactions = transactions.map((tx) => {
+      const index = filesIndex;
+      filesIndex++;
+      return tx.build(filesSeed, index).originSign(originPrivateKey);
+    });
 
-    refTx.build(refSeed, refIndex).originSign(originPrivateKey)
+    const refTx = await aeweb.getRefTransaction(transactions);
 
-    transactions.push(refTx)
+    refTx.build(refSeed, refIndex).originSign(originPrivateKey);
 
-    const {
-      refTxFees,
-      filesTxFees
-    } = await cli.estimateTxsFees(archethic, transactions)
+    transactions.push(refTx);
 
-    const transferTx = archethic.transaction.new()
-      .setType('transfer')
+    const { refTxFees, filesTxFees } = await cli.estimateTxsFees(
+      archethic,
+      transactions
+    );
+
+    const transferTx = archethic.transaction
+      .new()
+      .setType("transfer")
       .addUCOTransfer(refAddress, refTxFees)
-      .addUCOTransfer(filesAddress, filesTxFees)
+      .addUCOTransfer(filesAddress, filesTxFees);
 
-    transferTx.build(baseSeed, baseIndex).originSign(originPrivateKey)
+    transferTx.build(baseSeed, baseIndex).originSign(originPrivateKey);
 
-    transactions.unshift(transferTx)
+    transactions.unshift(transferTx);
 
-    const {
-      fee,
-      rates
-    } = await archethic.transaction.getTransactionFee(transferTx)
+    const { fee, rates } = await archethic.transaction.getTransactionFee(
+      transferTx
+    );
 
-    const fees = fromBigInt(fee + refTxFees + filesTxFees)
+    const fees = fromBigInt(fee + refTxFees + filesTxFees);
 
-    const ok = await validFees(fees, rates, transactions.length)
+    const ok = await validFees(fees, rates, transactions.length);
 
     if (ok) {
-      console.log(chalk.blue('Sending transactions...'))
+      console.log(chalk.blue("Sending transactions..."));
 
-      let rawdata = fs.readFileSync(`${basePath}/build/json/_metadata.json`);
+      let rawdata = fs.readFileSync(`${metadataPath}/_metadata.json`);
       let data = JSON.parse(rawdata);
 
       for (let edition in data.collection) {
-
         let item = data.collection[edition];
-        item.content.aeweb = `${uint8ArrayToHex(refAddress)}/${item.edition}.png`;
+        item.content.aeweb = `${uint8ArrayToHex(refAddress)}/${edition}.png`;
 
         fs.writeFileSync(
-          `${basePath}/build/json/${item.edition}.json`,
+          `${metadataPath}/${edition}.json`,
           JSON.stringify(item, null, 2)
         );
-
       }
 
       fs.writeFileSync(
-        `${basePath}/build/json/_metadata.json`,
+        `${metadataPath}/_metadata.json`,
         JSON.stringify(data, null, 2)
       );
 
@@ -129,70 +154,66 @@ const handler = async function (argv) {
         .then(() => {
           console.log(
             chalk.green(
-              'Successfully uploaded files at -',
-              endpoint + '/api/web_hosting/' + uint8ArrayToHex(refAddress) + '/'
+              "Successfully uploaded files at -",
+              endpoint + "/api/web_hosting/" + uint8ArrayToHex(refAddress) + "/"
             )
-          )
-          exit(0)
+          );
+          exit(0);
         })
-        .catch(error => {
-          console.log(
-            'Transaction validation error : ' + error
-          )
-          exit(1)
-        })
-
+        .catch((error) => {
+          console.log("Transaction validation error : " + error);
+          exit(1);
+        });
     } else {
-      throw 'User aborted deployment.'
+      throw "User aborted deployment.";
     }
-
   } catch (e) {
-    console.log(e)
-    exit(1)
+    console.log(e);
+    exit(1);
   }
-}
+};
 
 async function validFees(fees, rates, nbTxs) {
-  console.log(chalk.yellowBright(
-    'Total Fee Requirement would be : ' +
-    fees +
-    ' UCO ( $ ' +
-    (rates.usd * fees).toFixed(2) +
-    ' | € ' +
-    (rates.eur * fees).toFixed(2) +
-    '), for ' + nbTxs + ' transactions.'
-  ))
+  console.log(
+    chalk.yellowBright(
+      "Total Fee Requirement would be : " +
+        fees +
+        " UCO ( $ " +
+        (rates.usd * fees).toFixed(2) +
+        " | € " +
+        (rates.eur * fees).toFixed(2) +
+        "), for " +
+        nbTxs +
+        " transactions."
+    )
+  );
 
   return await yesno({
-    question: chalk.yellowBright(
-      'Do you want to continue. (yes/no)'
-    ),
-  })
+    question: chalk.yellowBright("Do you want to continue. (yes/no)"),
+  });
 }
 
 async function sendTransactions(transactions, index, endpoint) {
   return new Promise(async (resolve, reject) => {
-
-    const tx = transactions[index]
-    tx
-      .on('requiredConfirmation', async (nbConf) => {
-        if (index + 1 == transactions.length) {
-          resolve()
-        } else {
-          sendTransactions(transactions, index + 1, endpoint)
-            .then(() => resolve())
-            .catch(error => reject(error))
-        }
-      })
-      .on('error', (context, reason) => reject(reason))
-      .on('timeout', (nbConf) => reject('Transaction fell in timeout'))
-      .send(75)
-  })
+    const tx = transactions[index];
+    tx.on("requiredConfirmation", async (nbConf) => {
+      if (index + 1 == transactions.length) {
+        resolve();
+      } else {
+        sendTransactions(transactions, index + 1, endpoint)
+          .then(() => resolve())
+          .catch((error) => reject(error));
+      }
+    })
+      .on("error", (context, reason) => reject(reason))
+      .on("timeout", (nbConf) => reject("Transaction fell in timeout"))
+      .send(75);
+  });
 }
 
 export default {
   command,
   describe,
   builder,
-  handler
+  handler,
 };

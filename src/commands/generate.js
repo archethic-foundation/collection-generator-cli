@@ -1,45 +1,95 @@
-import { createCanvas, loadImage } from 'canvas';
-import fs from 'fs';
-import chalk from 'chalk';
-import sha1 from 'sha1';
-import {
-  format,
-  baseUri,
-  description,
-  background,
-  uniqueDnaTolerance,
-  layerConfigurations,
-  rarityDelimiter,
-  shuffleLayerConfigurations,
-  debugLogs,
-  extraMetadata,
-  text,
-  namePrefix,
-  supply,
-  name,
-  symbol,
-  addEditionToMetadata,
-  addDnaToMetadata
-} from '../config/config.js';
+import { createCanvas, loadImage } from "canvas";
+import fs from "fs";
+import chalk from "chalk";
+import sha1 from "sha1";
 
-const basePath = process.cwd();
-const buildDir = `${basePath}/build`;
-const layersDir = `${basePath}/layers`;
+const DNA_DELIMITER = "-";
 
-const canvas = createCanvas(format.width, format.height);
-const ctx = canvas.getContext('2d');
-ctx.imageSmoothingEnabled = format.smoothing;
+const command = "generate";
+const describe = "Generate random NTF collection";
+const builder = {
+  config: {
+    description: "Path to your NFT collection config file",
+    type: "string",
+    demandOption: false,
+    default: "./config.json",
+    alias: "c",
+  },
+  layers: {
+    description: "Path to your NFT layers folder",
+    type: "string",
+    demandOption: false,
+    default: "./layers",
+    alias: "l",
+  },
+  output: {
+    description: "Path to your NFT collection output folder",
+    type: "string",
+    demandOption: false,
+    default: "./build",
+    alias: "o",
+  },
+};
 
-let metadataList = [];
-let attributesList = [];
-const dnaList = new Set();
-const DNA_DELIMITER = '-';
+function checkRequiredConfig(config) {
+  const required = [
+    "namePrefix",
+    "description",
+    "baseUri",
+    "name",
+    "symbol",
+    "layerConfigurations",
+    "shuffleLayerConfigurations",
+    "debugLogs",
+    "format",
+    "text",
+    "pixelFormat",
+    "background",
+    "extraMetadata",
+    "rarityDelimiter",
+    "uniqueDnaTolerance",
+    "addDnaToMetadata",
+    "addEditionToMetadata",
+  ];
+  const missing_config = [];
+  required.forEach((key) => {
+    if (!config.hasOwnProperty(key)) {
+      missing_config.push(key);
+    }
+  });
+  if (missing_config.length > 0) {
+    console.log(
+      chalk.red(`Missing required config options: ${missing_config.join(", ")}`)
+    );
+    process.exit(1);
+  }
+}
 
-const command = 'generate';
+const handler = async function (argv) {
+  // check if config file exists
+  const configPath = argv.config;
+  if (!fs.existsSync(configPath)) {
+    console.log(
+      chalk.red(
+        `Could not find config file at ${configPath}, please check the path and try again.`
+      )
+    );
+    process.exit(1);
+  }
+  const config = JSON.parse(fs.readFileSync(configPath));
+  checkRequiredConfig(config);
+  global.config = config;
 
-const describe = 'Generate random NFTs';
+  global.buildDir = argv.output;
+  global.layersDir = argv.layers;
 
-const handler = async function () {
+  global.canvas = createCanvas(config.format.width, config.format.height);
+  global.ctx = canvas.getContext("2d");
+  ctx.imageSmoothingEnabled = config.format.smoothing;
+
+  global.metadataList = [];
+  global.attributesList = [];
+  const dnaList = new Set();
 
   const setupFolders = () => {
     if (fs.existsSync(buildDir)) {
@@ -51,31 +101,45 @@ const handler = async function () {
   };
 
   const createRandomizedImages = async () => {
-    let layerConfigIndex = 0;
-    let editionCount = 1;
-    let failedCount = 0;
-    let abstractedIndexes = [];
+    let globalEditionCount = 1;
+
     for (
-      let i = 1;
-      i <= layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo;
-      i++
+      let configIndex = 0;
+      configIndex < config.layerConfigurations.length;
+      configIndex++
     ) {
-      abstractedIndexes.push(i);
-    }
-    if (shuffleLayerConfigurations) {
-      abstractedIndexes = shuffle(abstractedIndexes);
-    }
-    debugLogs
-      ? console.log("Editions left to create: ", abstractedIndexes)
-      : null;
-    while (layerConfigIndex < layerConfigurations.length) {
+      let editionCount = 1;
+      let failedCount = 0;
+      let abstractedIndexes = [];
+
+      for (
+        let i = globalEditionCount;
+        i <
+        globalEditionCount +
+          config.layerConfigurations[configIndex].growEditionSizeTo;
+        i++
+      ) {
+        abstractedIndexes.push(i);
+      }
+
+      if (config.shuffleLayerConfigurations) {
+        abstractedIndexes = shuffle(abstractedIndexes);
+      }
+
+      config.debugLogs
+        ? console.log("Editions left to create: ", abstractedIndexes)
+        : null;
+
       const layers = layersSetup(
-        layerConfigurations[layerConfigIndex].layersOrder
+        config.layerConfigurations[configIndex].layersOrder
       );
+
       while (
-        editionCount <= layerConfigurations[layerConfigIndex].growEditionSizeTo
+        editionCount <=
+        config.layerConfigurations[configIndex].growEditionSizeTo
       ) {
         let newDna = createDna(layers);
+
         if (isDnaUnique(dnaList, newDna)) {
           let results = constructLayerToDna(newDna, layers);
           let loadedElements = [];
@@ -85,82 +149,106 @@ const handler = async function () {
           });
 
           await Promise.all(loadedElements).then((renderObjectArray) => {
-            debugLogs ? console.log("Clearing canvas") : null;
-            ctx.clearRect(0, 0, format.width, format.height);
+            config.debugLogs ? console.log("Clearing canvas") : null;
+            ctx.clearRect(0, 0, config.format.width, config.format.height);
 
-            if (background.generate) {
+            if (config.background.generate) {
               drawBackground();
             }
+
             renderObjectArray.forEach((renderObject, index) => {
               drawElement(
                 renderObject,
                 index,
-                layerConfigurations[layerConfigIndex].layersOrder.length
+                config.layerConfigurations[configIndex].layersOrder.length
               );
-
             });
 
-            debugLogs
+            config.debugLogs
               ? console.log("Editions left to create: ", abstractedIndexes)
               : null;
+
             saveImage(abstractedIndexes[0]);
             addMetadata(newDna, abstractedIndexes[0]);
             saveMetaDataSingleFile(abstractedIndexes[0]);
-            console.log(chalk.green(
-              `Created edition: ${abstractedIndexes[0]}, with DNA: ${sha1(
-                newDna
-              )}`)
+            console.log(
+              chalk.green(
+                `Created edition: ${abstractedIndexes[0]}, with DNA: ${sha1(
+                  newDna
+                )}`
+              )
             );
           });
+
           dnaList.add(filterDNAOptions(newDna));
           editionCount++;
           abstractedIndexes.shift();
         } else {
           console.log("DNA exists!");
           failedCount++;
-          if (failedCount >= uniqueDnaTolerance) {
+
+          if (failedCount >= config.uniqueDnaTolerance) {
             console.log(
-              `You need more layers or elements to grow your edition to ${layerConfigurations[layerConfigIndex].growEditionSizeTo} artworks!`
+              `You need more layers or elements to grow your edition to ${config.layerConfigurations[configIndex].growEditionSizeTo} artworks!`
             );
             process.exit(1);
           }
         }
       }
-      layerConfigIndex++;
+
+      globalEditionCount +=
+        config.layerConfigurations[configIndex].growEditionSizeTo;
     }
-    writeMetaData(JSON.stringify({
-      supply: supply,
-      name: name,
-      type: "non-fungible",
-      symbol: symbol,
-      aeip: [2, 9],
-      collection: metadataList
-    }, null, 2));
+
+    writeMetaData(
+      JSON.stringify(
+        {
+          supply: (globalEditionCount - 1) * 1e8,
+          name: config.name,
+          type: "non-fungible",
+          symbol: config.symbol,
+          aeip: [2, 9],
+          collection: metadataList,
+        },
+        null,
+        2
+      )
+    );
   };
 
   setupFolders();
   createRandomizedImages();
-
-}
+};
 
 function cleanDna(_str) {
   const withoutOptions = removeQueryStrings(_str);
-  let dna = Number(withoutOptions.split(':').shift());
+  let dna = Number(withoutOptions.split(":").shift());
   return dna;
-};
+}
 
 function cleanName(_str) {
   let nameWithoutExtension = _str.slice(0, -4);
-  let nameWithoutWeight = nameWithoutExtension.split(rarityDelimiter).shift();
+  let nameWithoutWeight = nameWithoutExtension
+    .split(config.rarityDelimiter)
+    .shift();
   return nameWithoutWeight;
-};
+}
 
 function getElements(path) {
+  // check if path exists
+  if (!fs.existsSync(path)) {
+    console.log(
+      chalk.red(
+        `Could not find layer folder at ${path}, please check the path and try again.`
+      )
+    );
+    process.exit(1);
+  }
   return fs
     .readdirSync(path)
     .filter((item) => !/(^|\/)\.[^\/\.]/g.test(item))
     .map((i, index) => {
-      if (i.includes('-')) {
+      if (i.includes("-")) {
         throw new Error(`layer name can not contain dashes, please fix: ${i}`);
       }
       return {
@@ -171,64 +259,72 @@ function getElements(path) {
         weight: getRarityWeight(i),
       };
     });
-};
+}
 
 function layersSetup(layersOrder) {
   const layers = layersOrder.map((layerObj, index) => ({
     id: index,
     elements: getElements(`${layersDir}/${layerObj.name}/`),
     name:
-      layerObj.options?.['displayName'] != undefined
-        ? layerObj.options?.['displayName']
+      layerObj.options?.["displayName"] != undefined
+        ? layerObj.options?.["displayName"]
         : layerObj.name,
     blend:
-      layerObj.options?.['blend'] != undefined
-        ? layerObj.options?.['blend']
-        : 'source-over',
+      layerObj.options?.["blend"] != undefined
+        ? layerObj.options?.["blend"]
+        : "source-over",
     opacity:
-      layerObj.options?.['opacity'] != undefined ? layerObj.options?.['opacity'] : 1,
+      layerObj.options?.["opacity"] != undefined
+        ? layerObj.options?.["opacity"]
+        : 1,
     bypassDNA:
-      layerObj.options?.['bypassDNA'] !== undefined ? layerObj.options?.['bypassDNA'] : false,
+      layerObj.options?.["bypassDNA"] !== undefined
+        ? layerObj.options?.["bypassDNA"]
+        : false,
   }));
   return layers;
-};
+}
 
 function saveImage(_editionCount) {
-  fs.writeFileSync(`${buildDir}/images/${_editionCount}.png`, canvas.toBuffer('image/png'));
-};
-
+  fs.writeFileSync(
+    `${buildDir}/images/${_editionCount}.png`,
+    canvas.toBuffer("image/png")
+  );
+}
 
 function genColor() {
   let hue = Math.floor(Math.random() * 360);
-  let pastel = `hsl(${hue}, 100%, ${background.brightness})`;
+  let pastel = `hsl(${hue}, 100%, ${config.background.brightness})`;
   return pastel;
-};
+}
 
 function drawBackground() {
-  ctx.fillStyle = background.static ? background.default : genColor();
-  ctx.fillRect(0, 0, format.width, format.height);
-};
+  ctx.fillStyle = config.background.static
+    ? config.background.default
+    : genColor();
+  ctx.fillRect(0, 0, config.format.width, config.format.height);
+}
 
 function addMetadata(_dna, _edition) {
   let tempMetadata = {
-    name: `${namePrefix} #${_edition}`,
-    description: description,
+    name: `${global.config.namePrefix} #${_edition}`,
+    description: config.description,
     content: {
-      aeweb: `${baseUri}/${_edition}.png`,
+      aeweb: `${config.baseUri}/${_edition}.png`,
     },
     type_mime: `image/png`,
     edition: _edition,
-    ...extraMetadata,
+    ...config.extraMetadata,
     attributes: attributesList,
   };
 
-  if (addDnaToMetadata) {
-    tempMetadata.dna = sha1(_dna)
+  if (config.addDnaToMetadata) {
+    tempMetadata.dna = sha1(_dna);
   }
 
   metadataList.push(tempMetadata);
   attributesList = [];
-};
+}
 
 function addAttributes(_element) {
   let selectedElement = _element.layer.selectedElement;
@@ -236,7 +332,7 @@ function addAttributes(_element) {
     trait_type: _element.layer.name,
     value: selectedElement.name,
   });
-};
+}
 
 async function loadLayerImg(_layer) {
   try {
@@ -247,7 +343,7 @@ async function loadLayerImg(_layer) {
   } catch (error) {
     console.error("Error loading image:", error);
   }
-};
+}
 
 function addText(_sig, x, y, size) {
   ctx.fillStyle = text.color;
@@ -255,28 +351,28 @@ function addText(_sig, x, y, size) {
   ctx.textBaseline = text.baseline;
   ctx.textAlign = text.align;
   ctx.fillText(_sig, x, y);
-};
+}
 
 function drawElement(_renderObject, _index, _layersLen) {
   ctx.globalAlpha = _renderObject.layer.opacity;
   ctx.globalCompositeOperation = _renderObject.layer.blend;
-  text.only
+  config.text.only
     ? addText(
-      `${_renderObject.layer.name}${text.spacer}${_renderObject.layer.selectedElement.name}`,
-      text.xGap,
-      text.yGap * (_index + 1),
-      text.size
-    )
+        `${_renderObject.layer.name}${text.spacer}${_renderObject.layer.selectedElement.name}`,
+        config.text.xGap,
+        config.text.yGap * (_index + 1),
+        config.text.size
+      )
     : ctx.drawImage(
-      _renderObject.loadedImage,
-      0,
-      0,
-      format.width,
-      format.height
-    );
+        _renderObject.loadedImage,
+        0,
+        0,
+        config.format.width,
+        config.format.height
+      );
 
   addAttributes(_renderObject);
-};
+}
 
 function shuffle(array) {
   let currentIndex = array.length,
@@ -294,21 +390,21 @@ function shuffle(array) {
 
 function saveMetaDataSingleFile(_editionCount) {
   let metadata = metadataList.find((meta) => meta.edition == _editionCount);
-  debugLogs
+  config.debugLogs
     ? console.log(
-      `Writing metadata for ${_editionCount}: ${JSON.stringify(metadata)}`
-    )
+        `Writing metadata for ${_editionCount}: ${JSON.stringify(metadata)}`
+      )
     : null;
 
-  if (!addEditionToMetadata) {
-    delete metadata.edition
+  if (!config.addEditionToMetadata) {
+    delete metadata.edition;
   }
 
   fs.writeFileSync(
     `${buildDir}/json/${_editionCount}.json`,
     JSON.stringify(metadata, null, 2)
   );
-};
+}
 
 function createDna(_layers) {
   let randNum = [];
@@ -320,32 +416,32 @@ function createDna(_layers) {
 
     let random = Math.floor(Math.random() * totalWeight);
     for (var i = 0; i < layer.elements.length; i++) {
-
       random -= layer.elements[i].weight;
       if (random < 0) {
         return randNum.push(
-          `${layer.elements[i].id}:${layer.elements[i].filename}${layer.bypassDNA ? "?bypassDNA=true" : ""
+          `${layer.elements[i].id}:${layer.elements[i].filename}${
+            layer.bypassDNA ? "?bypassDNA=true" : ""
           }`
         );
       }
     }
   });
   return randNum.join(DNA_DELIMITER);
-};
+}
 
 function writeMetaData(_data) {
   fs.writeFileSync(`${buildDir}/json/_metadata.json`, _data);
-};
+}
 
 function isDnaUnique(_DnaList = new Set(), _dna = "") {
   const _filteredDNA = filterDNAOptions(_dna);
   return !_DnaList.has(_filteredDNA);
-};
+}
 
 function removeQueryStrings(_dna) {
   const query = /(\?.*$)/;
   return _dna.replace(query, "");
-};
+}
 
 function filterDNAOptions(_dna) {
   const dnaItems = _dna.split(DNA_DELIMITER);
@@ -364,16 +460,18 @@ function filterDNAOptions(_dna) {
   });
 
   return filteredDNA.join(DNA_DELIMITER);
-};
+}
 
 function getRarityWeight(_str) {
   let nameWithoutExtension = _str.slice(0, -4);
-  let nameWithoutWeight = Number(nameWithoutExtension.split(rarityDelimiter).pop());
+  let nameWithoutWeight = Number(
+    nameWithoutExtension.split(config.rarityDelimiter).pop()
+  );
   if (isNaN(nameWithoutWeight)) {
     nameWithoutWeight = 1;
   }
   return nameWithoutWeight;
-};
+}
 
 function constructLayerToDna(_dna = "", _layers = []) {
   let mappedDnaToLayers = _layers.map((layer, index) => {
@@ -388,10 +486,11 @@ function constructLayerToDna(_dna = "", _layers = []) {
     };
   });
   return mappedDnaToLayers;
-};
+}
 
 export default {
   command,
   describe,
-  handler
+  handler,
+  builder,
 };
