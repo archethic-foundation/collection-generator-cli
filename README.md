@@ -145,6 +145,8 @@ aenft-collection generate --config ./config.json
 ```
 
 - `config` is the path of your `config.json` file.
+- `layers` is the path to your NFT layers folder (optional, default to: `./layers`)
+- `output` is the path of your NFT collection building output (optional, default to: `./build`)
   
 The program will output all the images in the `build/images` directory along with the metadata files in the `build/json` directory. Each collection will have a `_metadata.json` file that consists of all the metadata in the collection inside the `build/json` directory. The `build/json` folder also will contain all the single json files that represent each image file. The single json file of a image will look something like this:
 
@@ -213,11 +215,10 @@ To upload images -
 
 - `seed` is a string representing the transaction chain entropy to be able to derive and generate the keys
 - `endpoint` is the URL of a welcome node to receive the transaction
-- `path` is the path of the folder you want to deploy
-- `config` is the path of your `config.json` file.
+- `build-path` is the path of the NFT collection generation output
   
 ```bash
-aenft-collection upload --seed myseedphrase --endpoint https://testnet.archethic.net --config ''
+aenft-collection upload --seed myseedphrase --endpoint https://testnet.archethic.net
 ```
 
 ### Mint a collection on Archethic Public Blockchain
@@ -226,11 +227,10 @@ To mint a NFT collection on Archethic Public Blockchain -
 
 - `seed` is a string representing the transaction chain entropy to be able to derive and generate the keys
 - `endpoint` is the URL of a welcome node to receive the transaction
-- `path` is the path of the json file you want to deploy
-- `config` is the path of your `config.json` file.
+- `build-path` is the path of the NFT collection generation output (optional, default to: `./build`)
 
 ```bash
-aenft-collection mint --seed myseedphrase --endpoint https://testnet.archethic.net --config ''
+aenft-collection mint --seed myseedphrase --endpoint https://testnet.archethic.net
 ```
 
 Hope you will create some awesome artworks with this code.
