@@ -5,7 +5,7 @@ import { hideBin } from 'yargs/helpers';
 import mint from './src/commands/mint.js';
 import upload from './src/commands/upload.js';
 import about from './src/commands/about.js';
-import generate from './src/generate.js';
+import generate from './src/commands/generate.js';
 
 const y = yargs(hideBin(process.argv));
 
