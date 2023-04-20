@@ -203,7 +203,7 @@ const handler = async function (argv) {
     writeMetaData(
       JSON.stringify(
         {
-          supply: globalEditionCount - 1,
+          supply: (globalEditionCount - 1) * 1e8,
           name: config.name,
           type: "non-fungible",
           symbol: config.symbol,
