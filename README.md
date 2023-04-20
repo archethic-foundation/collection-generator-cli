@@ -102,7 +102,7 @@ Optionally you can now add multiple different `layerConfigurations` to your coll
 
 _Example:_ If you were creating a portrait design, you might have a background, then a head, a mouth, eyes, eyewear, and then headwear and you want to create a new race or just simple re-order the layers or even introduce new layers, then you're `layerConfigurations` and `layersOrder` would look something like this:
 
-```json
+```jsonc
   "layerConfigurations": [
     {
       // Creates up to 50 artworks
