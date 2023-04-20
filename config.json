@@ -2,7 +2,6 @@
   "namePrefix": "Your Collection",
   "description": "Remember to replace this description",
   "baseUri": "",
-  "supply": 500000000,
   "name": "AE Collection",
   "symbol": "AE05",
   "layerConfigurations": [
@@ -30,6 +29,35 @@
         {
           "name": "Top lid"
         }
+      ]
+    },
+    {
+      "growEditionSizeTo": 3,
+      "layersOrder": [
+        {
+          "name": "Bottom lid"
+        },
+        {
+          "name": "Background"
+        },
+        
+        {
+          "name": "Top lid"
+        },
+        {
+          "name": "Eye color"
+        },
+        {
+          "name": "Iris"
+        },
+        {
+          "name": "Eyeball"
+        },
+        {
+          "name": "Shine"
+        }
+        
+        
       ]
     }
   ],
