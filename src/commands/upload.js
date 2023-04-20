@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import Archethic, { Crypto, Utils } from "archethic";
-import AEWeb from "aeweb";
+import AEWeb from "aeweb/lib/api.js";
 import * as cli from "./cli.js";
 import { exit } from "process";
 import chalk from "chalk";
@@ -29,6 +29,13 @@ const builder = {
     demandOption: true,
     type: "string",
     alias: "e",
+  },
+  "build-path": {
+    describe: "Path to the build folder",
+    demandOption: false,
+    type: "string",
+    alias: "b",
+    default: `${basePath}/build`,
   },
 };
 
