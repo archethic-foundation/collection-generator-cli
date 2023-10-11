@@ -1,6 +1,6 @@
 {
   "name": "@archethicjs/collection-generator-cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Archethic NFT Collection Generator CLI",
   "bin": {
     "aenft-collection": "index.js"
