@@ -5,7 +5,7 @@ Welcome to Collection Generator CLI, this repository lets you generate, upload a
 ## Installation 🛠️
 
 ```sh
-npm install -g aenft-collection 
+npm install -g @archethicjs/collection-generator-cli
 ```
 
 To check if project is installed successfully, run the following command -
