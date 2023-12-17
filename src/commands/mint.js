@@ -1,7 +1,6 @@
 import fs from "fs";
 import chalk from "chalk";
-import Archethic from "archethic";
-import { Utils, Crypto } from "archethic";
+import Archethic, { Utils, Crypto } from "@archethicjs/sdk";
 import yesno from "yesno";
 
 const command = "mint";
@@ -97,12 +96,12 @@ async function validFees(fees, rates) {
   console.log(
     chalk.yellowBright(
       "Total Fee Requirement would be : " +
-        fees +
-        " UCO ( $ " +
-        (rates.usd * fees).toFixed(2) +
-        " | € " +
-        (rates.eur * fees).toFixed(2) +
-        ")"
+      fees +
+      " UCO ( $ " +
+      (rates.usd * fees).toFixed(2) +
+      " | € " +
+      (rates.eur * fees).toFixed(2) +
+      ")"
     )
   );
 

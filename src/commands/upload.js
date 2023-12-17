@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
-import Archethic, { Crypto, Utils } from "archethic";
-import AEWeb from "aeweb/lib/api.js";
+import Archethic, { Crypto, Utils } from "@archethicjs/sdk";
+import AEWeb from "@archethicjs/aeweb-cli";
 import * as cli from "./cli.js";
 import { exit } from "process";
 import chalk from "chalk";
@@ -51,12 +51,12 @@ const handler = async function (argv) {
       process.exit(1);
     }
     if (!fs.existsSync(`${argv["build-path"]}/json/_metadata.json`)) {
-        console.log(
-            chalk.red(
-            `Could not find _metadata.json file at ${argv["build-path"]}, please check the path and try again.`
-            )
-        );
-        process.exit(1);
+      console.log(
+        chalk.red(
+          `Could not find _metadata.json file at ${argv["build-path"]}, please check the path and try again.`
+        )
+      );
+      process.exit(1);
     }
 
     const folderPath = cli.normalizeFolderPath(`${buildPath}/images`);
@@ -177,14 +177,14 @@ async function validFees(fees, rates, nbTxs) {
   console.log(
     chalk.yellowBright(
       "Total Fee Requirement would be : " +
-        fees +
-        " UCO ( $ " +
-        (rates.usd * fees).toFixed(2) +
-        " | € " +
-        (rates.eur * fees).toFixed(2) +
-        "), for " +
-        nbTxs +
-        " transactions."
+      fees +
+      " UCO ( $ " +
+      (rates.usd * fees).toFixed(2) +
+      " | € " +
+      (rates.eur * fees).toFixed(2) +
+      "), for " +
+      nbTxs +
+      " transactions."
     )
   );
 

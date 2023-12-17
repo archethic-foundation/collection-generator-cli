@@ -11,7 +11,7 @@ npm install -g @archethicjs/collection-generator-cli
 To check if project is installed successfully, run the following command -
 
 ```sh
-aenft-collection about
+node index.js about
 ```
 
 ## Usage ℹ️
@@ -141,7 +141,7 @@ If you want to have logs to debug and see what is happening when you generate im
 When you are ready, run the following command and your outputted art will be in the `build/images` directory and the json in the `build/json` directory:
 
 ```sh
-aenft-collection generate --config ./config.json
+node index.js generate --config ./config.json
 ```
 
 - `config` is the path of your `config.json` file.
@@ -218,7 +218,7 @@ To upload images -
 - `build-path` is the path of the NFT collection generation output (optional, default to: `./build`)
   
 ```bash
-aenft-collection upload --seed myseedphrase --endpoint https://testnet.archethic.net
+node index.js upload --seed myseedphrase --endpoint https://testnet.archethic.net
 ```
 
 ### Mint a collection on Archethic Public Blockchain
@@ -230,7 +230,7 @@ To mint a NFT collection on Archethic Public Blockchain -
 - `build-path` is the path of the NFT collection generation output (optional, default to: `./build`)
 
 ```bash
-aenft-collection mint --seed myseedphrase --endpoint https://testnet.archethic.net
+node index.js mint --seed myseedphrase --endpoint https://testnet.archethic.net
 ```
 
 Hope you will create some awesome artworks with this code.

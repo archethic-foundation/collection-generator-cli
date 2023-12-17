@@ -1,4 +1,4 @@
-import { createCanvas, loadImage } from "canvas";
+import { createCanvas, loadImage } from "@napi-rs/canvas";
 import fs from "fs";
 import chalk from "chalk";
 import sha1 from "sha1";
@@ -116,7 +116,7 @@ const handler = async function (argv) {
         let i = globalEditionCount;
         i <
         globalEditionCount +
-          config.layerConfigurations[configIndex].growEditionSizeTo;
+        config.layerConfigurations[configIndex].growEditionSizeTo;
         i++
       ) {
         abstractedIndexes.push(i);
@@ -358,18 +358,18 @@ function drawElement(_renderObject, _index, _layersLen) {
   ctx.globalCompositeOperation = _renderObject.layer.blend;
   config.text.only
     ? addText(
-        `${_renderObject.layer.name}${text.spacer}${_renderObject.layer.selectedElement.name}`,
-        config.text.xGap,
-        config.text.yGap * (_index + 1),
-        config.text.size
-      )
+      `${_renderObject.layer.name}${text.spacer}${_renderObject.layer.selectedElement.name}`,
+      config.text.xGap,
+      config.text.yGap * (_index + 1),
+      config.text.size
+    )
     : ctx.drawImage(
-        _renderObject.loadedImage,
-        0,
-        0,
-        config.format.width,
-        config.format.height
-      );
+      _renderObject.loadedImage,
+      0,
+      0,
+      config.format.width,
+      config.format.height
+    );
 
   addAttributes(_renderObject);
 }
@@ -392,8 +392,8 @@ function saveMetaDataSingleFile(_editionCount) {
   let metadata = metadataList.find((meta) => meta.edition == _editionCount);
   config.debugLogs
     ? console.log(
-        `Writing metadata for ${_editionCount}: ${JSON.stringify(metadata)}`
-      )
+      `Writing metadata for ${_editionCount}: ${JSON.stringify(metadata)}`
+    )
     : null;
 
   if (!config.addEditionToMetadata) {
@@ -419,8 +419,7 @@ function createDna(_layers) {
       random -= layer.elements[i].weight;
       if (random < 0) {
         return randNum.push(
-          `${layer.elements[i].id}:${layer.elements[i].filename}${
-            layer.bypassDNA ? "?bypassDNA=true" : ""
+          `${layer.elements[i].id}:${layer.elements[i].filename}${layer.bypassDNA ? "?bypassDNA=true" : ""
           }`
         );
       }

@@ -1,5 +1,5 @@
 {
-  "name": "aenft-collection",
+  "name": "@archethicjs/collection-generator-cli",
   "version": "1.0.0",
   "description": "Archethic NFT Collection Generator CLI",
   "bin": {
@@ -14,14 +14,25 @@
       "src/**/*"
     ]
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/archethic-foundation/collection-generator-cli.git"
+  },
+  "author": "Archethic Foundation <dev@archethic.net>",
+  "license": "AGPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/archethic-foundation/collection-generator-cli/issues"
+  },
+  "homepage": "https://github.com/archethic-foundation/collection-generator-cli#readme",
   "dependencies": {
-    "aeweb": "^0.6.0",
-    "archethic": "1.14.0",
-    "canvas": "^2.8.0",
-    "chalk": "^4.1.1",
-    "figlet": "^1.5.2",
+    "@archethicjs/aeweb-cli": "^0.7.3",
+    "@archethicjs/sdk": "^1.20.1",
+    "@napi-rs/canvas": "^0.1.44",
+    "bcrypt": "^5.1.1",
+    "chalk": "^5.3.0",
+    "figlet": "^1.7.0",
     "minimist": "^1.2.8",
     "sha1": "^1.1.1",
-    "yargs": "^17.6.2"
+    "yargs": "^17.7.2"
   }
 }
